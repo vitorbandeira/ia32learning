@@ -19,6 +19,10 @@ bin/
 # or
 */bin/*
 
+# Ignore gdb files
+.gdb_history
+peda-session-*
+
 # Unignore all `.jar` in `bin` dir
 !*/bin/*.jar
 
