@@ -25,6 +25,7 @@ peda-session-*
 
 # Unignore all `.jar` in `bin` dir
 !*/bin/*.jar
+!io.o
 
 # Ignore all `library.jar` in `bin` dir
 */bin/library.jar
