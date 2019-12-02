@@ -1,48 +1,23 @@
 %include "io.mac"
 .DATA
-  message db 'Digite um número com mais de um algarismo', 0Dh, 0Ah
-  message_size EQU $-message
-  result db 'O número inteiro é: ', 0Dh, 0Ah
+  message db 'Digite um número com mais de um algarismo:', 0Dh, 0Ah
 
 .UDATA
-  number resb 11
+  result32 resd 1
 
 .CODE
   .STARTUP
-  mov eax, 4
-  mov ebx, 1
-  mov ecx, message
-  mov edx, message_size
-  int 80h
+  PutStr message
+  GetInt ax
 
-  mov eax, 3
-  mov ebx, 0
-  mov ecx, number
-  mov edx, 11
-  int 80h
-aqui:
-  mov eax, 0  ; valor inteiro
-  mov ebx, 0  ; digito
-  mov ecx, 0  ; ponteiro da string
-  mov edx, 0  ; buffer para num original
-  mov ecx, number
-string_to_int:
-  mov bl, [ecx]  ; movendo digito char para ser transformado
-  ; multiplica por 10
-  mov dl, al ; num original
-  shl al, 3 ; multiplica por 8
-  add al, dl ; soma numero
-  add al, dl ; soma numero
+  mov bx, 2
+  imul bx ; ax * bx
+mult:
+  mov word [result32], ax
+  mov word [result32+2], dx ; result = dx, ax
 
-  sub bl, 30h  ; digito inteiro já transformado
-  add al, bl  ; soma na parcial de eax
-incrementa: 
-  inc ecx ; anda byte na string
-  cmp byte [ecx], 0Ah  ; procura fim da string
-  jne string_to_int
-
-  PutStr result
-  PutInt ax
+result:
+  PutLInt [result32]
 
 .EXIT
 
